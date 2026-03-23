@@ -1,0 +1,54 @@
+<section class="contact-section py-5" style="background-color: #001529; color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 mb-4">
+                <h2 class="fw-bold mb-4" style="color: white; font-size: 2.5rem;">LIÊN HỆ NHANH</h2>
+                <div class="contact-info">
+                    <p class="mb-1 fw-bold">Điện thoại</p>
+                    <p class="h4 mb-4" style="color: #ff5722; font-weight: bold;">(028) 7777 7999</p>
+                    <p class="mb-1 fw-bold">Email</p>
+                    <p class="h5 mb-4" style="color: #ff5722;">system@matbao.ws</p>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-light btn-sm px-3 text-dark"><i class="fas fa-map-marker-alt text-danger"></i> Nhà máy</button>
+                        <button class="btn btn-light btn-sm px-3 text-dark"><i class="fas fa-map-marker-alt text-danger"></i> Hệ thống đại lý</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7">
+               <form action="/Home/GuiLienHe" method="post">
+    <div class="row g-3">
+        <div class="col-12">
+            <input type="text" name="HoTen" class="form-control" placeholder="Họ và Tên" required>
+        </div>
+        
+        <div class="col-md-6">
+            <input type="email" name="Email" class="form-control" placeholder="Email" required>
+        </div>
+        
+        <div class="col-md-6">
+            <input type="text" name="SoDienThoai" class="form-control" placeholder="Số điện thoại" required>
+        </div>
+        
+        <div class="col-12">
+            <textarea name="NoiDung" class="form-control" rows="4" placeholder="Nội dung"></textarea>
+        </div>
+        
+        @if (TempData["Message"] != null)
+        {
+            <div class="col-12">
+                <div class="alert alert-success mt-2">@TempData["Message"]</div>
+            </div>
+        }
+
+        <div class="col-12 text-center">
+            <button type="submit" class="btn fw-bold px-5 py-2 mt-2" style="background-color: #ff5722; color: white;">
+                GỬI THÔNG TIN
+            </button>
+        </div>
+    </div>
+</form>
+            </div>
+        </div>
+    </div>
+</section>

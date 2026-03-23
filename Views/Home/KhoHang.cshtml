@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Quản lý Kho hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid bg-light py-4 px-4 min-vh-100">
+    <div class="row g-4">
+        <div class="col-md-3 col-lg-2">
+            @await Html.PartialAsync("~/Views/Shared/Partials/KhoHang/_KH-Sidebar.cshtml")
+        </div>
+
+        <div class="col-md-9 col-lg-10">
+            @* Gọi Header để hiển thị tiêu đề và tổng số lượng kho *@
+            @await Html.PartialAsync("~/Views/Shared/Partials/KhoHang/_KH-Header.cshtml")
+            
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+                <div class="col">
+                    @await Html.PartialAsync("~/Views/Shared/Partials/KhoHang/_KH-Card.cshtml", 
+                        new { Id=1, TenKho="Kho Hoàng Mai", Color="#f59e0b", HinhAnh="/images/kho_dong_da.jpg", DiaChi="55 Street 230, Đống Đa, HN", SoLuong="5,240", NhanVien=4, PhanTram=95, TrangThai="Đầy đủ" })
+                </div>
+
+                <div class="col">
+                    @await Html.PartialAsync("~/Views/Shared/Partials/KhoHang/_KH-Card.cshtml", 
+                        new { Id=2, TenKho="Kho Long Biên", Color="#16a34a", HinhAnh="/images/kho_hoang_mai.jpg", DiaChi="Số 65 ngõ 124 Vĩnh Tuy, HN", SoLuong="3,980", NhanVien=3, PhanTram=70, TrangThai="Đầy đủ" })
+                </div>
+
+                <div class="col">
+                    @await Html.PartialAsync("~/Views/Shared/Partials/KhoHang/_KH-Card.cshtml", 
+                        new { Id=3, TenKho="Kho Ba Đình", Color="#2563eb", HinhAnh="/images/kho_ba_dinh.jpg", DiaChi="152 Đội Cấn, Ba Đình, HN", SoLuong="1,230", NhanVien=3, PhanTram=25, TrangThai="Còn trống" })
+                </div>
+
+                <div class="col">
+                    @await Html.PartialAsync("~/Views/Shared/Partials/KhoHang/_KH-Card.cshtml", 
+                        new { Id=4, TenKho="Kho Đống Đa", Color="#dc2626", HinhAnh="/images/kho_long_bien.jpg", DiaChi="49 Ngõ 178 Tây Sơn, Long Biên, HN", SoLuong="0", NhanVien=0, PhanTram=0, TrangThai="Trống" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

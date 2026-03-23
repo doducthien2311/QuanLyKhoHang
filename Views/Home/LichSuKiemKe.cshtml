@@ -1,0 +1,43 @@
+@model IEnumerable<QuanLyKhoLogistics.Models.Entities.LichSuKiemKeVM>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold"><i class="fas fa-history me-2"></i>LỊCH SỬ KIỂM KÊ</h2>
+        <a href="/" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Quay lại</a>
+    </div>
+
+    @if (ViewBag.Error != null) {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <div class="card shadow border-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Ngày thực hiện</th>
+                        <th>Loại phiếu</th>
+                        <th>Số Hóa Đơn</th>
+                        <th>Nhân viên thực hiện</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td>@item.NgayThucHien.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>
+                                <span class="badge @(item.LoaiPhieu == "NHẬP" ? "bg-success" : "bg-danger")">
+                                    @item.LoaiPhieu
+                                </span>
+                            </td>
+                            <td class="fw-bold text-primary">@item.SoHoaDon</td>
+                            <td><i class="fas fa-id-badge me-1 text-muted"></i> @item.GhiChu</td>
+                            <td class="fw-bold text-danger">@item.TongTien.ToString("N0") VNĐ</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

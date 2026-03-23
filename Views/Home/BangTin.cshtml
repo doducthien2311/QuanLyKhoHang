@@ -1,0 +1,38 @@
+@using System.Data
+@{
+    ViewData["Title"] = "Bảng Tin Nội Bộ";
+    var posts = ViewBag.PostList as DataTable;
+}
+
+@await Html.PartialAsync("Partials/_CreatePost")
+
+<div class="mt-4">
+    <h5 class="fw-bold"><i class="bi bi-chat-left-text me-2"></i> TIN TỨC MỚI NHẤT</h5>
+    <hr>
+
+    @if (posts != null && posts.Rows.Count > 0)
+    {
+        @foreach (DataRow row in posts.Rows)
+        {
+            <div class="card border-0 shadow-sm mb-3 p-3">
+                <div class="d-flex align-items-center mb-2">
+                    <img src="~/images/user_avatar.png" class="rounded-circle me-2" width="40">
+                    <div>
+                        <div class="fw-bold">@row["UserName"]</div>
+                        <small class="text-muted">@row["UserRole"] • @row["CreatedAt"]</small>
+                    </div>
+                </div>
+                <div class="ms-5">
+                    @row["Content"]
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-inbox fs-1"></i>
+            <p>Hiện tại chưa có thông báo nào mới.</p>
+        </div>
+    }
+</div>

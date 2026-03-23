@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Trang Chủ - Quản Lý Kho Logistics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* 1. Slider Banner chính của trang chủ *@
+@* 1. Slider *@
+@await Html.PartialAsync("~/Views/Shared/Partials/TrangChu/_Slider-Trang-Chu.cshtml")
+
+@* 3. Kệ kho tự động *@
+@await Html.PartialAsync("~/Views/Shared/Partials/TrangChu/_Ke-Kho-Tu-Dong.cshtml")
+
+@* 4. Dự án ấn tượng *@
+@await Html.PartialAsync("~/Views/Shared/Partials/TrangChu/_Du-An-An-Tuong.cshtml")
+
+@* 5. Con số ấn tượng *@
+@await Html.PartialAsync("~/Views/Shared/Partials/TrangChu/_Con-So-An-Tuong.cshtml")
+
+@* 6. Đối tác *@
+@await Html.PartialAsync("~/Views/Shared/Partials/TrangChu/_Doi-Tac.cshtml")
+
+@* 7. Tin tức *@
+@await Html.PartialAsync("~/Views/Shared/Partials/TrangChu/_Tin-Tuc.cshtml")
+
+@* 8. Liên hệ nhanh *@
+@await Html.PartialAsync("~/Views/Shared/Partials/TrangChu/_Lien-He-Nhanh.cshtml")
+
+<div class="card border-0 shadow-sm p-4 mt-3">
+    <h5 class="fw-bold"><i class="bi bi-info-circle me-2"></i> Trạng thái vận hành</h5>
+    <p class="text-muted small">Cập nhật lúc: @DateTime.Now.ToString("HH:mm - dd/MM/yyyy")</p>
+    <hr>
+</div>

@@ -1,0 +1,68 @@
+@* File: ~/Views/Shared/Partials/KhoHang/_KH-Header.cshtml *@
+
+<div class="d-flex justify-content-between align-items-end mb-4 animate__animated animate__fadeIn">
+    <div>
+        <h3 class="fw-bold text-dark mb-1 text-uppercase" style="letter-spacing: 0.5px;">
+            <i class="fas fa-warehouse me-2 text-success"></i>
+            @* Hiển thị tên kho từ ViewBag, nếu không có thì hiện mặc định *@
+            @(ViewBag.TenKho ?? "Quản lý hệ thống kho hàng")
+        </h3>
+        <p class="text-muted mb-0">
+            @if (ViewBag.TenKho == null) 
+            {
+                <span>Hệ thống đang quản lý <span class="fw-bold text-success">04</span> kho hàng tổng thể.</span>
+            } 
+            else 
+            {
+                @* Badge trạng thái động *@
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 shadow-sm">
+                    <i class="fas fa-check-circle me-1"></i>Trạng thái: Đang hoạt động
+                </span>
+                <span class="ms-2 d-none d-md-inline-block">
+                    <i class="fas fa-info-circle me-1 text-info"></i>Xem chi tiết khu vực và thực hiện biến động kho.
+                </span>
+            }
+        </p>
+    </div>
+    
+    <div class="d-none d-lg-block">
+        @if (ViewBag.TenKho == null) 
+        {
+            @* Giao diện trang danh sách kho *@
+            <button class="btn btn-outline-success btn-sm rounded-pill px-3 me-2 hover-shadow">
+                <i class="fas fa-file-export me-1"></i>Xuất báo cáo tổng
+            </button>
+            <button class="btn btn-success btn-sm rounded-pill px-3 shadow-sm" style="background-color: #2e7d32;">
+                <i class="fas fa-plus me-1"></i>Thêm kho mới
+            </button>
+        }
+        else 
+        {
+            @* Giao diện khi vào chi tiết 1 kho - Đã gắn link Lịch Sử *@
+            <a href="@Url.Action("LichSuKiemKe", "Home")" class="btn btn-warning btn-sm rounded-pill px-3 me-2 text-dark fw-bold shadow-sm transition-all">
+                <i class="fas fa-history me-1"></i>Lịch sử kiểm kê
+            </a>
+            
+            <a href="@Url.Action("KhoHang", "Home")" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                <i class="fas fa-arrow-left me-1"></i> Quay lại
+            </a>
+        }
+    </div>
+</div>
+
+<hr class="mt-0 mb-4 opacity-10">
+
+<style>
+    /* Thêm một chút CSS để nút bấm của Thiện xịn hơn */
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    .transition-all:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+        filter: brightness(1.1);
+    }
+    .bg-success-subtle {
+        background-color: #e8f5e9 !important;
+    }
+</style>

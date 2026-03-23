@@ -1,0 +1,91 @@
+<style>
+    .doi-tac-section {
+        background-color: #ffffff;
+        padding: 60px 0;
+        margin-top: 20px;
+    }
+    .partner-card {
+        cursor: pointer; /* THÊM DÒNG NÀY Ở ĐÂY */
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 15px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+    .partner-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .partner-card img {
+        max-width: 100%;
+        max-height: 50px;
+        filter: grayscale(20%); /* Làm logo hơi nhạt để tinh tế, di chuột vào sẽ rõ */
+        transition: 0.3s;
+    }
+    .partner-card:hover img {
+        filter: grayscale(0%);
+    }
+    .section-title-partner {
+        font-weight: bold;
+        letter-spacing: 2px;
+        position: relative;
+    }
+</style>
+
+<div class="container-fluid doi-tac-section">
+    <div class="row align-items-center">
+        <div class="col-md-3 text-center mb-4 mb-md-0">
+            <h4 class="section-title-partner">ĐỐI TÁC</h4>
+        </div>
+
+        <div class="col-md-9">
+    <div class="row g-3 px-3">
+        <div class="col-6 col-sm-3">
+            <a href="https://vifon.com.vn/" target="_blank" class="text-decoration-none">
+                <div class="partner-card"><img src="~/images/logo-vifon.png" alt="Vifon"></div>
+            </a>
+        </div>
+        <div class="col-6 col-sm-3">
+            <a href="https://www.evn.com.vn/" target="_blank" class="text-decoration-none">
+                <div class="partner-card"><img src="~/images/logo-evn.png" alt="EVN"></div>
+            </a>
+        </div>
+        <div class="col-6 col-sm-3">
+            <a href="https://www.hyundai.com/" target="_blank" class="text-decoration-none">
+                <div class="partner-card"><img src="~/images/logo-hyundai.png" alt="Hyundai"></div>
+            </a>
+        </div>
+        <div class="col-6 col-sm-3">
+            <a href="https://boxme.asia/vi/" target="_blank" class="text-decoration-none">
+                <div class="partner-card"><img src="~/images/logo-boxme.png" alt="Boxme"></div>
+            </a>
+        </div>
+        <div class="col-6 col-sm-3">
+            <a href="https://www.makita.com.vn/" target="_blank" class="text-decoration-none">
+                <div class="partner-card"><img src="~/images/logo-makita.png" alt="Makita"></div>
+            </a>
+        </div>
+        <div class="col-6 col-sm-3">
+            <a href="https://www.aeon.com.vn/" target="_blank" class="text-decoration-none">
+                <div class="partner-card"><img src="~/images/logo-aeon.png" alt="Aeon"></div>
+            </a>
+        </div>
+        <div class="col-6 col-sm-3">
+            <a href="https://www.coteccons.vn/" target="_blank" class="text-decoration-none">
+                <div class="partner-card"><img src="~/images/logo-coteccons.png" alt="Coteccons"></div>
+            </a>
+        </div>
+        <div class="col-6 col-sm-3">
+            <a href="https://www.vietjetair.com/" target="_blank" class="text-decoration-none">
+                <div class="partner-card"><img src="~/images/logo-vietjet.png" alt="Vietjet"></div>
+            </a>
+        </div>
+    </div>
+</div>
+    </div>
+</div>

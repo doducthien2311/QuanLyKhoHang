@@ -1,0 +1,105 @@
+<style>
+    .stats-section {
+        background: linear-gradient(rgba(0, 31, 63, 0.9), rgba(0, 31, 63, 0.9)), url('/images/background_kho.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 60px 0;
+        margin-top: 20px;
+        border-radius: 15px;
+    }
+    .stat-item {
+        text-align: center;
+    }
+    .stat-icon {
+        background: white;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        color: #001f3f;
+        font-size: 30px;
+    }
+    .stat-number {
+        font-size: 32px;
+        font-weight: bold;
+        color: #fd7e14; /* Màu cam đồng bộ với tiêu đề dự án của Thiện */
+        margin-bottom: 5px;
+    }
+    .stat-text {
+        font-size: 14px;
+        opacity: 0.8;
+        text-transform: uppercase;
+    }
+</style>
+
+<div class="container-fluid stats-section shadow-lg" id="counter-section">
+    <h4 class="text-center fw-bold text-uppercase mb-5">CON SỐ ẤN TƯỢNG CỦA HOUGROUP</h4>
+    <div class="row">
+        <div class="col-6 col-md-3 stat-item">
+            <div class="stat-icon"><i class="bi bi-buildings"></i></div>
+            <div class="stat-number" data-target="50000">0</div>
+            <div class="stat-text">Quy mô m² kho hàng</div>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+            <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
+            <div class="stat-number" data-target="10000">0</div>
+            <div class="stat-text">Dự án trung chuyển</div>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+            <div class="stat-icon"><i class="bi bi-map"></i></div>
+            <div class="stat-number" data-target="34">0</div>
+            <div class="stat-text">Tỉnh thành</div>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+            <div class="stat-icon"><i class="bi bi-people"></i></div>
+            <div class="stat-number" data-target="300">0</div>
+            <div class="stat-text">Nhân sự</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function countUp() {
+        const counters = document.querySelectorAll('.stat-number');
+        
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            // Tính toán bước nhảy (Step) để tất cả các số cùng về đích trong 2 giây
+            const duration = 2000; // Tổng thời gian chạy là 2000ms (2 giây)
+            const stepTime = 20;   // Cập nhật số sau mỗi 20ms
+            const totalSteps = duration / stepTime;
+            const increment = target / totalSteps;
+
+            let currentCount = 0;
+
+            const updateCount = () => {
+                currentCount += increment;
+                
+                if (currentCount < target) {
+                    // Hiển thị số đã làm tròn và thêm dấu +
+                    counter.innerText = Math.ceil(currentCount).toLocaleString() + ' +';
+                    setTimeout(updateCount, stepTime);
+                } else {
+                    // Chốt hạ con số cuối cùng chính xác
+                    counter.innerText = target.toLocaleString() + ' +';
+                }
+            };
+            
+            updateCount();
+        });
+    }
+
+    // Hiệu ứng chạy khi cuộn chuột đến
+    let observer = new IntersectionObserver((entries) => {
+        if(entries[0].isIntersecting) {
+            countUp();
+            observer.disconnect(); 
+        }
+    }, { threshold: 0.2 }); // Chỉ cần hiện 20% khung hình là bắt đầu chạy
+
+    observer.observe(document.getElementById('counter-section'));
+</script>

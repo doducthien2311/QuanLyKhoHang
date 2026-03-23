@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Giới thiệu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Banner tràn rộng *@
+@await Html.PartialAsync("~/Views/Shared/Partials/GioiThieu/_GT-Banner.cshtml")
+
+<div class="container"> @* Bọc nội dung phía dưới vào container để không sát lề *@
+    @await Html.PartialAsync("~/Views/Shared/Partials/GioiThieu/_GT-Noi-Dung.cshtml")
+    @await Html.PartialAsync("~/Views/Shared/Partials/GioiThieu/_GT-Lich-Su.cshtml")
+    @await Html.PartialAsync("~/Views/Shared/Partials/GioiThieu/_GT-So-Do.cshtml")
+    @await Html.PartialAsync("~/Views/Shared/Partials/GioiThieu/_GT-Chung-Nhan.cshtml")
+</div>

@@ -1,0 +1,30 @@
+@* File: ~/Views/Shared/Partials/GioiThieu/_GT-Banner.cshtml *@
+
+@* --- Phần 1: Breadcrumb (Đường dẫn phía trên ảnh) --- *@
+@* File: ~/Views/Shared/Partials/GioiThieu/_GT-Banner.cshtml *@
+
+<div class="breadcrumb-wrapper py-2 border-bottom" style="background-color: #f8f9fa;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb m-0 p-0" style="background-color: transparent;">
+                <li class="breadcrumb-item">
+                    @* Sửa href thành /Home/Index để chắc chắn quay về trang chủ *@
+                    <a href="/Home/Index" class="text-orange" style="text-decoration: none; font-size: 0.9rem; color: #fd7e14;">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item active text-muted" aria-current="page" style="font-size: 0.9rem;">
+                    &mdash; Giới thiệu
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="banner-image-wrapper">
+    <img src="~/images/banner-kho-ke.jpg" 
+         class="img-fluid w-100 shadow-sm" 
+         alt="Hệ thống kho kệ" 
+         style="object-fit: cover; max-height: 450px; width: 100%; display: block;" />
+</div>
+

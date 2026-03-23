@@ -1,0 +1,73 @@
+<style>
+    /* Hiệu ứng bóng đổ và bo góc chuyên nghiệp */
+    .warehouse-card {
+        transition: all 0.3s ease;
+        border: 1px solid #eee !important;
+        border-radius: 10px; /* Thêm bo góc cho card cho mềm mại */
+    }
+    .warehouse-card:hover {
+        transform: translateY(-8px); /* Nâng cao hơn chút khi hover */
+        box-shadow: 0 12px 24px rgba(0,0,0,0.15) !important;
+    }
+    .warehouse-img {
+        height: 220px;
+        object-fit: cover;
+        border-bottom: 1px solid #eee;
+    }
+    /* Căn chỉnh tiêu đề */
+    .title-underline {
+        width: 60px;
+        height: 3px;
+        background-color: #ff5722;
+        margin: 10px auto 0;
+    }
+</style>
+
+<div class="container-xxl mt-5">
+    <div class="text-center mb-5">
+        <h3 class="fw-bold text-uppercase mb-0">Hệ Thống Kho Hàng HOUGroup</h3>
+        <div class="title-underline"></div>
+    </div>
+    
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 warehouse-card overflow-hidden">
+                <img src="~/images/kho_ba_dinh.jpg" class="card-img-top warehouse-img" alt="Kho Ba Đình">
+                <div class="card-body text-center bg-white d-flex flex-column justify-content-center">
+                    <h6 class="fw-bold text-danger mb-2">Kho Ba Đình</h6>
+                    <p class="small text-muted mb-0">Giải pháp kho thông minh vận hành tự động bằng phần mềm.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 warehouse-card overflow-hidden">
+                <img src="~/images/kho_dong_da.jpg" class="card-img-top warehouse-img" alt="Kho Đống Đa">
+                <div class="card-body text-center bg-white d-flex flex-column justify-content-center">
+                    <h6 class="fw-bold text-danger mb-2">Kho Đống Đa</h6>
+                    <p class="small text-muted mb-0">Giải pháp tối ưu cho kho hàng hiện đại với công nghệ tiên tiến.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 warehouse-card overflow-hidden">
+                <img src="~/images/kho_hoang_mai.jpg" class="card-img-top warehouse-img" alt="Kho Hoàng Mai">
+                <div class="card-body text-center bg-white d-flex flex-column justify-content-center">
+                    <h6 class="fw-bold text-danger mb-2">Kho Hoàng Mai</h6>
+                    <p class="small text-muted mb-0">Hệ thống lưu trữ mật độ cao sử dụng robot trung chuyển.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 warehouse-card overflow-hidden">
+                <img src="~/images/kho_long_bien.jpg" class="card-img-top warehouse-img" alt="Kho Long Biên">
+                <div class="card-body text-center bg-white d-flex flex-column justify-content-center">
+                    <h6 class="fw-bold text-danger mb-2">Kho Long Biên</h6>
+                    <p class="small text-muted mb-0">Tối ưu hóa diện tích lối đi cho xe nâng chuyên dụng.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

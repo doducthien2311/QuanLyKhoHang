@@ -1,0 +1,361 @@
+@model List<QuanLyKhoLogistics.Models.Entities.OKho>
+@{
+    ViewData["Title"] = "Quản lý chi tiết - " + ViewBag.TenKho;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var khuVucsMap = new Dictionary<int, string> {
+        {1, "Thời trang"}, {2, "Thiết bị điện tử"}, {3, "Thiết bị gia dụng"}, {4, "Thể thao"}, {5, "Sức khỏe"}
+    };
+    
+    var kyTuKhuMap = new Dictionary<int, string> {
+        {1, "A"}, {2, "B"}, {3, "C"}, {4, "D"}, {5, "E"}
+    };
+    var dienTichMap = new Dictionary<int, string> {
+        {1, "120m²"}, {2, "150m²"}, {3, "100m²"}, {4, "200m²"}, {5, "180m²"}
+    };
+}
+
+<div class="container-fluid py-4">
+    @await Html.PartialAsync("Partials/KhoHang/_KH-Header")
+
+    <div class="row g-2 mb-4">
+        @foreach (var map in khuVucsMap) {
+            <div class="col">
+                <a href="@Url.Action("DatLichKiemKho", new { id = ViewBag.KhoId, khuId = map.Key })" 
+                   class="card border-0 shadow-sm p-3 text-center text-decoration-none rounded-4 @(ViewBag.KhuHienTaiId == map.Key ? "bg-success text-white" : "bg-white text-dark")">
+                    <div class="fw-bold small">Khu @map.Value</div>
+                    <div class="small opacity-75">Diện tích: @dienTichMap[map.Key]</div>
+                </a>
+            </div>
+        }
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 p-4">
+        <h5 class="fw-bold mb-4 text-uppercase">
+            <i class="fas fa-th me-2 text-success"></i>
+            Sơ đồ: Khu @(khuVucsMap.ContainsKey(ViewBag.KhuHienTaiId ?? 1) ? khuVucsMap[ViewBag.KhuHienTaiId] : "") 
+            (Mã @(kyTuKhuMap.ContainsKey(ViewBag.KhuHienTaiId ?? 1) ? kyTuKhuMap[ViewBag.KhuHienTaiId] : "A"))
+        </h5>
+        
+        <div class="d-flex flex-wrap gap-2 justify-content-start">
+            @foreach (var item in Model) {
+                <div class="bin-box @(item.DaCoHang ? "occupied" : "empty")" 
+                     style="cursor: pointer; pointer-events: auto;"
+                     title="Vị trí: @item.MaViTri"
+                     onclick="xemChiTietO('@item.ViTriID', '@item.MaViTri', @(item.DaCoHang ? "true" : "false"))">
+                    @item.SoThuTu
+                    <div class="label-code">@item.MaViTri</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalThaoTac" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title fw-bold" id="titleMaViTri">Vị trí: ...</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <input type="hidden" id="txtViTriID_Hidden" />
+                <input type="hidden" id="txtKhuID_Hidden" value="@ViewBag.KhuHienTaiId" />
+
+                <div id="formNhapHang" style="display:none;">
+                    <h6 class="text-success mb-3"><i class="fas fa-edit me-2"></i>Lập phiếu nhập kho nhanh</h6>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-primary">Nhân viên thực hiện</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control bg-light" id="txtNhanVienHienTai" 
+                                   value="@User.Identity.Name" readonly />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Tên Nhà cung cấp</label>
+                        <input type="text" class="form-control" id="iptTenNCC" placeholder="Nhập tên đơn vị cung cấp...">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Tên Sản phẩm</label>
+                        <input type="text" class="form-control" id="iptTenSP" placeholder="Nhập tên sản phẩm...">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label small fw-bold">Mã SKU</label>
+                            <input type="text" class="form-control" id="iptMaSKU" placeholder="Mã tự động...">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label small fw-bold">Đơn vị tính</label>
+                            <input type="text" class="form-control" id="iptDVT" value="Cái">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label small fw-bold">Số lượng</label>
+                            <input type="number" class="form-control text-center fw-bold" id="txtSoLuong" value="1" min="1">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label small fw-bold">Đơn giá nhập</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="txtDonGia" value="0">
+                                <span class="input-group-text">đ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-primary">Số hóa đơn</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fas fa-file-invoice"></i></span>
+                            <input type="text" class="form-control bg-light" id="iptSoHoaDon" 
+                                name="SoHoaDon" readonly />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Ghi chú</label>
+                        <textarea class="form-control" id="txtGhiChu" rows="2" placeholder="Thông tin thêm..."></textarea>
+                    </div>
+                </div>
+
+                <div id="thongTinHienTai" style="display:none;">
+                    <h6 class="text-danger mb-3"><i class="fas fa-box-open me-2"></i>Thông tin hàng hóa hiện tại</h6>
+                    <div class="p-3 border rounded bg-light shadow-sm">
+                        <div class="row mb-2">
+                            <div class="col-4 fw-bold">Sản phẩm:</div>
+                            <div class="col-8 text-primary fw-bold" id="lbTenSP">Đang tải...</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 fw-bold">Số lượng:</div>
+                            <div class="col-8" id="lbSoLuong">0</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 fw-bold">Nhà CC:</div>
+                            <div class="col-8" id="lbNCC">...</div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="small fw-bold text-danger">Số lượng muốn xuất:</label>
+                            <input type="number" id="txtSoLuongXuat" class="form-control border-danger" value="1" min="1" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="previewHoaDon" style="display:none;" class="p-3 border rounded bg-white shadow-sm">
+                    <div class="text-center mb-3">
+                        <h5 class="fw-bold text-uppercase">Hóa Đơn Nhập Kho</h5>
+                        <small id="pvNgay"></small>
+                    </div>
+                    <hr>
+                    <div class="row small mb-2">
+                        <div class="col-6"><strong>Nhà CC:</strong> <span id="pvNCC"></span></div>
+                        <div class="col-6 text-end"><strong>Số HD:</strong> <span id="pvSHD"></span></div>
+                    </div>
+                    <table class="table table-sm table-bordered small">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>SL</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="pvTenSP"></td>
+                                <td id="pvSL"></td>
+                                <td id="pvTong" class="fw-bold text-danger"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="mt-3 text-center">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="quayLaiNhap()">Sửa lại</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer border-0 bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger px-4" id="btnXuatKho" style="display:none;" onclick="thucHienXuat()">Xác nhận Xuất</button>
+                <button type="button" class="btn btn-success px-4" id="btnNhapKho" style="display:none;" onclick="luuNhapKho()">Xác nhận Nhập</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bin-box {
+        width: 75px; height: 75px;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        border-radius: 10px; cursor: pointer;
+        transition: 0.2s; position: relative; font-weight: bold;
+    }
+    .empty { border: 2px dashed #dee2e6; color: #adb5bd; }
+    .occupied { background-color: #ef4444; color: white; border: none; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .bin-box:hover { transform: translateY(-3px); border-color: #2e7d32; }
+    .label-code { font-size: 10px; opacity: 0.8; font-weight: normal; }
+</style>
+
+<script>
+    // 1. Hàm mở Modal
+   function xemChiTietO(viTriId, maViTri, daCoHang) {
+    document.getElementById('txtViTriID_Hidden').value = viTriId;
+    document.getElementById('titleMaViTri').innerText = "Vị trí: " + maViTri;
+
+    const formNhap = document.getElementById('formNhapHang');
+    const infoHienTai = document.getElementById('thongTinHienTai');
+    const preview = document.getElementById('previewHoaDon');
+    const btnNhap = document.getElementById('btnNhapKho');
+    const btnXuat = document.getElementById('btnXuatKho');
+
+    // Reset hiển thị
+    formNhap.style.display = 'none';
+    infoHienTai.style.display = 'none';
+    preview.style.display = 'none';
+
+    if (daCoHang === false || daCoHang === 'false') {
+        formNhap.style.display = 'block';
+        btnNhap.style.display = 'block';
+        btnXuat.style.display = 'none';
+
+        // 1. Reset và tự động điền các thông tin cơ bản
+        document.getElementById('iptMaSKU').value = maViTri.replace(/-/g, ""); 
+        document.getElementById('iptTenNCC').value = "";
+        document.getElementById('iptTenSP').value = "";
+        document.getElementById('txtSoLuong').value = 1;
+
+        // 2. XỬ LÝ NHÂN VIÊN: Tạo mã HOU-random
+        const inputNV = document.getElementById('txtNhanVienHienTai');
+        if (inputNV) {
+            const tenUser = "@User.Identity.Name" || "USER"; // Lấy tên user từ hệ thống
+            const soNgauNhien = Math.floor(1000 + Math.random() * 9000); // 4 số ngẫu nhiên
+            inputNV.value = "HOU-" + tenUser.toUpperCase() + "-" + soNgauNhien;
+        }
+
+        // 3. XỬ LÝ SỐ HÓA ĐƠN: Tạo mã random tự động
+        const inputHD = document.getElementById('iptSoHoaDon');
+        if (inputHD) {
+            const timestamp = Date.now().toString().slice(-6);
+            inputHD.value = "HD-" + timestamp + "-" + Math.floor(10 + Math.random() * 89);
+        }
+
+        btnNhap.innerText = "Tiếp theo (Xem hóa đơn)";
+        btnNhap.className = "btn btn-success px-4";
+        btnNhap.onclick = xemTruocHoaDon; 
+    } else {
+        // ... (Giữ nguyên phần xử lý fetch dữ liệu ô có hàng của bạn)
+        infoHienTai.style.display = 'block';
+        btnNhap.style.display = 'none';
+        btnXuat.style.display = 'block';
+        
+        document.getElementById('lbTenSP').innerText = "Đang tải...";
+        
+        fetch('/Home/GetChiTietO?viTriId=' + viTriId)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('lbTenSP').innerText = data.tenSP;
+                    document.getElementById('lbSoLuong').innerText = data.soLuong;
+                    document.getElementById('lbNCC').innerText = data.tenNCC || "N/A";
+                }
+            })
+            .catch(err => console.error("Lỗi:", err));
+    }
+
+    var myModal = new bootstrap.Modal(document.getElementById('modalThaoTac'));
+    myModal.show();
+}
+
+    // 2. Xem trước hóa đơn
+    function xemTruocHoaDon() {
+        const ncc = document.getElementById('iptTenNCC').value;
+        const sp = document.getElementById('iptTenSP').value;
+        const sl = parseFloat(document.getElementById('txtSoLuong').value) || 0;
+        const dg = parseFloat(document.getElementById('txtDonGia').value) || 0;
+        const shd = document.getElementById('iptSoHoaDon').value;
+
+        if (!ncc.trim() || !sp.trim()) { alert("Thiện ơi, nhập đủ NCC và Tên sản phẩm nhé!"); return; }
+
+        document.getElementById('pvNCC').innerText = ncc;
+        document.getElementById('pvTenSP').innerText = sp;
+        document.getElementById('pvSL').innerText = sl;
+        document.getElementById('pvSHD').innerText = shd || "---";
+        document.getElementById('pvTong').innerText = (sl * dg).toLocaleString() + " VNĐ";
+        document.getElementById('pvNgay').innerText = "Ngày: " + new Date().toLocaleDateString();
+
+        document.getElementById('formNhapHang').style.display = 'none';
+        document.getElementById('previewHoaDon').style.display = 'block';
+
+        const btn = document.getElementById('btnNhapKho');
+        btn.innerText = "Lưu & Hoàn tất";
+        btn.className = "btn btn-primary px-4"; 
+        btn.onclick = thucHienLuuDB; 
+    }
+
+    // 3. Quay lại nhập
+    function quayLaiNhap() {
+        document.getElementById('formNhapHang').style.display = 'block';
+        document.getElementById('previewHoaDon').style.display = 'none';
+        
+        const btn = document.getElementById('btnNhapKho');
+        btn.innerText = "Tiếp theo (Xem hóa đơn)";
+        btn.onclick = xemTruocHoaDon; 
+    }
+
+    // 4. Lưu vào Database
+    function thucHienLuuDB() {
+        const btn = document.getElementById('btnNhapKho');
+        btn.disabled = true;
+        btn.innerText = "Đang xử lý...";
+
+        const payload = {
+            ViTriID: parseInt(document.getElementById('txtViTriID_Hidden').value), 
+            MaNV: document.getElementById('txtNhanVienHienTai').value, 
+            TenNCC: document.getElementById('iptTenNCC').value,
+            TenSP: document.getElementById('iptTenSP').value,
+            MaSKU: document.getElementById('iptMaSKU').value,
+            DonViTinh: document.getElementById('iptDVT').value,
+            SoLuong: parseInt(document.getElementById('txtSoLuong').value),
+            DonGia: parseFloat(document.getElementById('txtDonGia').value),
+            GhiChu: document.getElementById('txtGhiChu').value,
+            DanhMucID: parseInt(document.getElementById('txtKhuID_Hidden').value),
+            SoHoaDon: document.getElementById('iptSoHoaDon').value
+        };
+
+        fetch('/Home/LuuNhapKhoTuDo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(result => {
+            if (result.success) {
+                alert("✅ Nhập kho thành công!");
+                location.reload();
+            } else {
+                alert("❌ Lỗi: " + result.message);
+                btn.disabled = false;
+            }
+        })
+        .catch(err => {
+            alert("Lỗi kết nối Server!");
+            btn.disabled = false;
+        });
+    }
+
+    // 5. Xuất kho
+    function thucHienXuat() {
+        const viTriId = document.getElementById('txtViTriID_Hidden').value;
+        const soLuongXuat = document.getElementById('txtSoLuongXuat').value;
+        if(confirm("Xác nhận xuất " + soLuongXuat + " mặt hàng này?")) {
+            // Viết fetch gọi /Home/XuatKho tương tự hàm Lưu
+            alert("Đang xử lý xuất kho...");
+        }
+    }
+</script>

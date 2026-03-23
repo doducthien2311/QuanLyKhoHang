@@ -1,0 +1,177 @@
+<style>
+   .du-an-container {
+        /* Lớp phủ (giữ nguyên độ đậm nhạt 0.7 theo yêu cầu trước nếu Thiện thích, hoặc chỉnh 0.95 nếu muốn đậm) */
+        background: linear-gradient(rgba(0, 31, 63, 0.7), rgba(0, 31, 63, 0.7)), url('/images/background_kho.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        
+        /* Chỉnh lại padding:
+           - Tăng padding trên một chút để thoáng (80px)
+           - THU GỌN padding dưới (chỉ còn 40px) để khung xanh sát với nội dung */
+        padding: 80px 0 40px 0 !important; 
+        
+        border-radius: 15px;
+        margin-top: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Đưa dấu chấm tròn (pagination) xuống sát mép dưới hơn nữa */
+    .duAnSwiper .swiper-pagination {
+        /* Chỉnh bottom thành 5px hoặc 8px (trước đó là 10px) 
+           để nó nằm thon gọn ở đáy khung xanh */
+        bottom: 8px !important; 
+    }
+
+    /* Style cho Swiper */
+    .duAnSwiper {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Style cho phần chữ (Cột trái) */
+    .du-an-text {
+        padding-right: 30px;
+        text-align: left;
+    }
+
+    .du-an-title {
+      color: #fd7e14; /* Đã đổi sang màu cam thương hiệu */
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+    .du-an-description {
+        font-size: 14px;
+        line-height: 1.8;
+        opacity: 0.9;
+        margin-bottom: 25px;
+    }
+
+    .btn-detail {
+        background-color: white;
+        color: #001f3f;
+        font-weight: bold;
+        border-radius: 5px;
+        padding: 8px 25px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+    .btn-detail:hover {
+        background-color: #fd7e14;
+        color: white;
+    }
+
+    /* Style cho phần ảnh (Cột phải) */
+    .du-an-img {
+        max-height: 380px;
+        border: 5px solid rgba(255,255,255,0.2);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    /* Định dạng dấu chấm tròn (pagination) */
+    .duAnSwiper .swiper-pagination {
+        bottom: 20px !important; /* Đẩy chấm tròn xuống dưới */
+    }
+
+    .duAnSwiper .swiper-pagination-bullet {
+        width: 12px;
+        height: 12px;
+        background: #fff !important;
+        opacity: 0.5;
+        margin: 0 6px !important;
+    }
+
+    .duAnSwiper .swiper-pagination-bullet-active {
+        background: #fd7e14 !important; /* Chấm tròn màu cam khi được chọn */
+        opacity: 1;
+        width: 30px; /* Kéo dài chấm tròn đang chọn cho đẹp */
+        border-radius: 6px;
+    }
+</style>
+<div class="container-fluid du-an-container shadow-lg">
+    <h4 class="text-center fw-bold text-uppercase mb-5">DỰ ÁN KỆ KHO CHỨA HÀNG ẤN TƯỢNG</h4>
+
+    <div class="swiper duAnSwiper">
+        <div class="swiper-wrapper">
+            
+            <div class="swiper-slide px-5">
+                <div class="row align-items-center">
+                    <div class="col-md-5 du-an-text">
+                        <h5 class="du-an-title">Kho Hoàng Mai trong hệ thống quản lý kho phân phối bán lẻ</h5>
+                        <p class="du-an-description">
+                            Công ty HOUGROUP triển khai hệ thống quản lý kho hiện đại tại TP.Hà nội, hỗ trợ lưu trữ và kiểm soát hàng nghìn mã SKU.
+                            Giải pháp giúp theo dõi tồn kho theo thời gian thực, nâng cao độ chính xác trong nhập – xuất hàng.
+                            Đồng thời tối ưu quy trình vận hành, giảm sai sót và tiết kiệm chi phí.
+                            Hệ thống còn cải thiện khả năng truy xuất, đáp ứng nhanh nhu cầu phân phối bán lẻ.
+                        </p>
+                        <a href="#" class="btn-detail">XEM CHI TIẾT</a>
+                    </div>
+                    <div class="col-md-7 text-center">
+                        <img src="~/images/kho_chi_tiet_1.jpg" class="img-fluid rounded-3 du-an-img" alt="Dự án 1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide px-5">
+                <div class="row align-items-center">
+                    <div class="col-md-5 du-an-text">
+                        <h5 class="du-an-title">Kho Ba Đình – trung tâm quản lý và phân phối hàng hóa</h5>
+                        <p class="du-an-description">
+                            Giải pháp hỗ trợ kiểm soát tồn kho chính xác, cập nhật dữ liệu theo thời gian thực.
+                            Quy trình nhập – xuất được tối ưu, giảm sai sót và nâng cao hiệu suất vận hành.
+                            Hệ thống đảm bảo khả năng truy xuất nhanh, phục vụ hiệu quả cho hoạt động phân phối bán lẻ.
+                        </p>
+                        <a href="#" class="btn-detail">XEM CHI TIẾT</a>
+                    </div>
+                    <div class="col-md-7 text-center">
+                        <img src="~/images/kho_chi_tiet_2.jpg" class="img-fluid rounded-3 du-an-img" alt="Dự án 2">
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide px-5">
+                <div class="row align-items-center">
+                    <div class="col-md-5 du-an-text">
+                        <h5 class="du-an-title">Kho Đống Đa – trung tâm quản lý và phân phối hàng hóa</h5>
+                        <p class="du-an-description">
+                            Lưu trữ hàng hóa đa dạng với hệ thống quản lý khoa học.
+                            Theo dõi tồn kho chính xác, cập nhật theo thời gian thực.
+                            Xử lý đơn hàng, đóng gói và chuẩn bị vận chuyển.
+                            Kết nối linh hoạt với nhà cung cấp và mạng lưới phân phối.
+                        </p>
+                        <a href="#" class="btn-detail">XEM CHI TIẾT</a>
+                    </div>
+                    <div class="col-md-7 text-center">
+                        <img src="~/images/kho_chi_tiet_3.jpg" class="img-fluid rounded-3 du-an-img" alt="Dự án 3">
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide px-5">
+                <div class="row align-items-center">
+                    <div class="col-md-5 du-an-text">
+                        <h5 class="du-an-title">Kho Long Biên – trung tâm trung chuyển và điều phối hàng hóa</h5>
+                        <p class="du-an-description">
+                            Hệ thống kệ chứa hàng mật độ cao Drive-in cho kho chứa nguyên liệu sản xuất.
+                            Tối ưu chi phí đầu tư và tận dụng tối đa chiều cao kho.
+                            Đóng vai trò trung gian trong luân chuyển hàng giữa các kho và điểm phân phối.
+                            Đảm bảo dòng chảy hàng hóa liên tục và ổn định.
+                        </p>
+                        <a href="#" class="btn-detail">XEM CHI TIẾT</a>
+                    </div>
+                    <div class="col-md-7 text-center">
+                        <img src="~/images/kho_chi_tiet_4.jpg" class="img-fluid rounded-3 du-an-img" alt="Dự án 4">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="swiper-pagination"></div>
+    </div>
+</div>

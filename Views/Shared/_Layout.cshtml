@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - QuanLyKhoLogistics</title>
+    
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
+    <style>
+        .nav-link:hover { color: #fd7e14 !important; } 
+        .navbar-nav .active { color: #fd7e14 !important; font-weight: bold; }
+        
+        /* 2. BỔ SUNG: Thêm một chút CSS để bảng đặt lịch trông xịn hơn */
+        .table-responsive {
+            scrollbar-width: thin;
+            scrollbar-color: #2e7d32 #f1f1f1;
+        }
+    </style>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Slider Banner chính
+    var swiper = new Swiper(".mySwiper", {
+        loop: true,
+        grabCursor: true,
+        autoplay: { delay: 4000, disableOnInteraction: false },
+        pagination: {
+            el: ".mySwiper .swiper-pagination", // Sửa lại ở đây
+            clickable: true,
+        },
+        keyboard: { enabled: true, onlyInViewport: true },
+    });
+
+    // 2. Slider Dự án ấn tượng
+    var duAnSwiper = new Swiper(".duAnSwiper", {
+        loop: true,
+        grabCursor: true,
+        autoplay: { delay: 6000, disableOnInteraction: false },
+        pagination: {
+            el: ".duAnSwiper .swiper-pagination", // Sửa lại ở đây
+            clickable: true,
+        },
+        keyboard: { enabled: true, onlyInViewport: true },
+    });
+
+    // 3. Slider Tin tức (10 bài kéo ngang)
+    var newsSwiper = new Swiper(".newsSwiper", {
+        breakpoints: {
+            0: { slidesPerView: 1, spaceBetween: 15 },
+            768: { slidesPerView: 2, spaceBetween: 20 },
+            1024: { slidesPerView: 4, spaceBetween: 25 }
+        },
+        loop: true,
+        grabCursor: true,
+        autoplay: { delay: 4000, disableOnInteraction: false },
+        pagination: {
+            el: ".newsSwiper .swiper-pagination", // Sửa lại ở đây
+            clickable: true,
+            dynamicBullets: true 
+        },
+    });
+});
+</script>
+<body class="bg-light">a
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="/Home/Index">
+                    <img src="~/images/logo.png" width="50" alt="Logo">
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto text-uppercase">
+                        <li class="nav-item"><a class="nav-link" href="/Home/Index">TRANG CHỦ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Home/GioiThieu">GIỚI THIỆU</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Home/KhoHang">KHO HÀNG</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Home/BangTin">BẢNG TIN</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Home/LienHe">LIÊN HỆ</a></li>
+                    </ul>
+
+                    <div class="d-flex align-items-center">
+                        @if (Context.Session.GetString("UserName") != null)
+                        {
+                            <span class="me-3 small text-muted">Chào, <b>@Context.Session.GetString("UserName")</b></span>
+                            <a href="/Account/Logout" class="btn btn-sm btn-outline-danger">Thoát</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+   @* --- PHẦN SỬA ĐỔI CHÍNH --- *@
+<div class="container-fluid">
+    <main role="main" class="pb-3">
+        @{
+            // Kiểm tra xem có phải đang ở Home/Index (Trang chủ) hay không
+            var isHomePage = ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && 
+                             ViewContext.RouteData.Values["action"]?.ToString() == "Index";
+        }
+
+        @if (isHomePage)
+        {
+            @* Nếu là trang chủ: Chia 3-9 và hiện Thanh-Ben *@
+            <div class="row px-md-4">
+                <div class="col-md-3">
+                    @await Html.PartialAsync("Partials/_Thanh-Ben")
+                </div>
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
+            </div>
+        }
+        else
+        {
+            @* Nếu KHÔNG PHẢI trang chủ: Dùng toàn bộ 12 cột (Full width) *@
+            <div class="row px-md-4">
+                <div class="col-12 p-0">
+                    @RenderBody()
+                </div>
+            </div>
+        }
+    </main>
+</div>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted bg-white py-3 mt-5">
+        <div class="container text-center">
+            &copy; 2026 - <b>QuanLyKhoLogistics</b> - Thiết kế bởi Đỗ Đức Thiện
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

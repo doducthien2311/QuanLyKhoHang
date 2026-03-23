@@ -1,0 +1,73 @@
+@* File: ~/Views/Shared/Partials/GioiThieu/_GT-Chung-Nhan.cshtml *@
+
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-uppercase mb-2" style="letter-spacing: 1px; color: #333;">GIẢI THƯỞNG & CHỨNG NHẬN</h2>
+            <div style="width: 50px; height: 3px; background-color: #ff5722; margin: 0 auto;"></div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 text-center">
+            
+            @* Khối chứng nhận 1 *@
+            <div class="col">
+                <div class="award-item p-3 rounded shadow-sm border h-100 bg-light">
+                    @* LƯU Ý: Bạn hãy đổi tên ảnh cho khớp, ví dụ: 'iso-1.jpg' 
+                       và bỏ vào thư mục wwwroot/images/ nhé 
+                    *@
+                    <img src="~/images/chung-nhan-1.jpg" 
+                         class="img-fluid rounded mb-2 award-image" 
+                         alt="Chứng nhận ISO 1" />
+                    <p class="mb-0 text-muted small mt-2">Chứng nhận ISO 9001:2015</p>
+                </div>
+            </div>
+
+            @* Khối chứng nhận 2 *@
+            <div class="col">
+                <div class="award-item p-3 rounded shadow-sm border h-100 bg-light">
+                    <img src="~/images/chung-nhan-2.jpg" 
+                         class="img-fluid rounded mb-2 award-image" 
+                         alt="Chứng nhận ISO 2" />
+                    <p class="mb-0 text-muted small mt-2">Chứng nhận ISO 9001:2015</p>
+                </div>
+            </div>
+
+            @* Khối chứng nhận 3 *@
+            <div class="col">
+                <div class="award-item p-3 rounded shadow-sm border h-100 bg-light">
+                    <img src="~/images/chung-nhan-3.jpg" 
+                         class="img-fluid rounded mb-2 award-image" 
+                         alt="Chứng nhận ISO 3" />
+                    <p class="mb-0 text-muted small mt-2">Chứng nhận ISO 9001:2015</p>
+                </div>
+            </div>
+
+            @* Khối chứng nhận 4 *@
+            <div class="col">
+                <div class="award-item p-3 rounded shadow-sm border h-100 bg-light">
+                    <img src="~/images/chung-nhan-4.jpg" 
+                         class="img-fluid rounded mb-2 award-image" 
+                         alt="Chứng nhận ISO 4" />
+                    <p class="mb-0 text-muted small mt-2">Chứng nhận ISO 9001:2015</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .award-item {
+        transition: all 0.3s ease-in-out;
+    }
+    .award-item:hover {
+        transform: translateY(-5px); /* Hiệu ứng nổi lên khi di chuột vào */
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,0.15)!important;
+    }
+    .award-image {
+        width: 100%;
+        object-fit: contain; /* Ảnh không bị méo */
+        height: 200px; /* Chiều cao cố định để 4 ảnh bằng nhau */
+        display: block;
+    }
+</style>

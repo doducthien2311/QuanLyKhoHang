@@ -1,0 +1,48 @@
+<style>
+    .mySwiper {
+        width: 100%;
+        height: 380px;
+        border-radius: 15px;
+        overflow: hidden;
+        /* Đẩy nội dung bên dưới xuống 40px để không bị đè */
+        margin-bottom: 40px !important; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        position: relative;
+    }
+
+    .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Định dạng dấu chấm tròn */
+    .swiper-pagination-bullets.swiper-pagination-horizontal {
+        bottom: 20px !important; /* Khoảng cách từ đáy ảnh lên chấm tròn */
+    }
+
+    .swiper-pagination-bullet {
+        width: 12px !important;
+        height: 12px !important;
+        background: #ffffff !important;
+        opacity: 0.6;
+        margin: 0 5px !important;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: #fd7e14 !important; /* Màu cam nổi bật khi đang chọn */
+        opacity: 1;
+        width: 30px !important; /* Kéo dài chấm đang chọn cho đẹp */
+        border-radius: 5px;
+    }
+</style>
+
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="~/images/kho_hang_1.jpg"></div>
+        <div class="swiper-slide"><img src="~/images/kho_hang_2.jpg"></div>
+        <div class="swiper-slide"><img src="~/images/kho_hang_3.jpg"></div>
+    </div>
+    
+    <div class="swiper-pagination"></div>
+</div>
