@@ -6,7 +6,7 @@ namespace QuanLyKhoLogistics.Models
         public string TenSP { get; set; }
         public string TenDanhMuc { get; set; } // Thêm dòng này
         public int SoLuong { get; set; }
-        public string DonViTinh { get; set; }  // Thêm dòng này
+        public string DVT { get; set; }  // Thêm dòng này
         public string MaViTri { get; set; }   // Thêm dòng này
     }
 }

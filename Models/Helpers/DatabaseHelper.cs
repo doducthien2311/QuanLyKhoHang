@@ -8,17 +8,17 @@ namespace QuanLyKhoLogistics.Models.Helpers
 {
     public static class DatabaseHelper
     {
-        private static string connectionString = @"Server=localhost\SQLEXPRESS;Database=QuanLyKhoLogistics;Trusted_Connection=True;TrustServerCertificate=True;";
-        // Hàm này sẽ tự động lấy chuỗi kết nối từ appsettings.json
+       
+      
         private static string GetConnectionString()
-        {
-            IConfiguration config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+    {
+        IConfiguration config = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
 
-            return config.GetConnectionString("DefaultConnection");
-        }
+        return config.GetConnectionString("DefaultConnection");
+    }
         // Thêm chữ static vào trước void
 public static void XuatKho(int phieuId, int spId, int viTriId, int soLuong, decimal gia)
 {
@@ -90,20 +90,17 @@ public static void XuatKho(int phieuId, int spId, int viTriId, int soLuong, deci
         }
        public static SanPhamTonKho GetChiTietO(int viTriId)
     {
-        // Câu lệnh SQL JOIN 4 bảng để lấy đầy đủ thông tin chi tiết của 1 ô kho
-        string query = @"SELECT sp.MaSKU, sp.TenSP, dm.TenDanhMuc, tk.SoLuong, sp.DonViTinh, vt.MaViTri
+        // 2. SỬA: Đổi dbo.ViTriO thành dbo.OKho để khớp với 1600 ô bạn đã tạo
+        string query = @"SELECT sp.MaSKU, sp.TenSP, dm.TenDanhMuc, tk.SoLuong, sp.DVT, vt.MaViTri
                          FROM dbo.TonKho tk
                          JOIN dbo.SanPham sp ON tk.SanPhamID = sp.SanPhamID
                          JOIN dbo.DanhMuc dm ON sp.DanhMucID = dm.DanhMucID
-                         JOIN dbo.ViTriO vt ON tk.ViTriID = vt.ViTriID
+                         JOIN dbo.OKho vt ON tk.ViTriID = vt.ViTriID 
                          WHERE tk.ViTriID = @ViTriID";
 
         SqlParameter[] param = { new SqlParameter("@ViTriID", viTriId) };
-        
-        // Gọi hàm dùng chung để thực thi truy vấn
         DataTable dt = LayDuLieu(query, param);
 
-        // Nếu tìm thấy dữ liệu (ô có hàng)
         if (dt != null && dt.Rows.Count > 0)
         {
             DataRow dr = dt.Rows[0];
@@ -113,12 +110,10 @@ public static void XuatKho(int phieuId, int spId, int viTriId, int soLuong, deci
                 TenSP = dr["TenSP"].ToString(),
                 TenDanhMuc = dr["TenDanhMuc"].ToString(),
                 SoLuong = dr["SoLuong"] != DBNull.Value ? Convert.ToInt32(dr["SoLuong"]) : 0,
-                DonViTinh = dr["DonViTinh"].ToString(),
+                DVT = dr["DVT"].ToString(),
                 MaViTri = dr["MaViTri"].ToString()
             };
         }
-
-        // Trả về null nếu là ô trống (không có bản ghi trong bảng TonKho)
         return null; 
     }
     }

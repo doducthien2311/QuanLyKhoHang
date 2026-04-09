@@ -1,43 +1,141 @@
 @model IEnumerable<QuanLyKhoLogistics.Models.Entities.LichSuKiemKeVM>
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary fw-bold"><i class="fas fa-history me-2"></i>LỊCH SỬ KIỂM KÊ</h2>
-        <a href="/" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Quay lại</a>
+@{
+    ViewData["Title"] = "Lịch sử Kho";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid mt-4">
+    <div class="card shadow-sm border-0 mb-4 bg-white">
+        <div class="card-body d-flex justify-content-between align-items-center py-3">
+            <div>
+                <h4 class="m-0 text-primary fw-bold">
+                    <i class="fas fa-history me-2"></i> LỊCH SỬ CHI TIẾT NHẬP XUẤT
+                </h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Trang chủ</a></li>
+                        <li class="breadcrumb-item active">Đang xem dữ liệu của Kho: <strong>@ViewBag.CurrentKhoId</strong></li>
+                    </ol>
+                </nav>
+            </div>
+            <a href="/Home/DatLichKiemKho/@ViewBag.CurrentKhoId" class="btn btn-secondary px-4 shadow-sm">
+                <i class="fas fa-chevron-left me-2"></i>Quay lại sơ đồ
+            </a>
+        </div>
     </div>
 
-    @if (ViewBag.Error != null) {
-        <div class="alert alert-danger">@ViewBag.Error</div>
-    }
-
-    <div class="card shadow border-0">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Ngày thực hiện</th>
-                        <th>Loại phiếu</th>
-                        <th>Số Hóa Đơn</th>
-                        <th>Nhân viên thực hiện</th>
-                        <th>Tổng tiền</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model) {
+    <div class="card shadow-sm border-0 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="bg-dark text-white text-uppercase small">
                         <tr>
-                            <td>@item.NgayThucHien.ToString("dd/MM/yyyy HH:mm")</td>
-                            <td>
-                                <span class="badge @(item.LoaiPhieu == "NHẬP" ? "bg-success" : "bg-danger")">
-                                    @item.LoaiPhieu
-                                </span>
-                            </td>
-                            <td class="fw-bold text-primary">@item.SoHoaDon</td>
-                            <td><i class="fas fa-id-badge me-1 text-muted"></i> @item.GhiChu</td>
-                            <td class="fw-bold text-danger">@item.TongTien.ToString("N0") VNĐ</td>
+                            <th class="ps-4">Thời gian</th>
+                            <th>Loại phiếu</th>
+                            <th>Số hóa đơn</th>
+                            <th>Sản phẩm</th> 
+                            <th>Vị trí (Khu)</th> 
+                            <th>Người thực hiện</th>
+                            <th class="text-end">Giá trị</th>
+                            <th class="text-center pe-4">Thao tác</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="fw-bold text-dark">@item.NgayThucHien.ToString("dd/MM/yyyy")</div>
+                                        <small class="text-muted"><i class="far fa-clock me-1"></i>@item.NgayThucHien.ToString("HH:mm")</small>
+                                    </td>
+                                    <td>
+                                        @if (item.LoaiPhieu.Contains("Nhập"))
+                                        {
+                                            <span class="badge-status bg-success-soft text-success">
+                                                <i class="fas fa-download me-1"></i> Nhập kho
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge-status bg-danger-soft text-danger">
+                                                <i class="fas fa-upload me-1"></i> Xuất kho
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="fw-bold text-secondary">@item.SoHoaDon</td>
+                                    <td>
+                                        <div class="fw-bold text-primary">@item.TenSP</div>
+                                        <small class="text-muted">SL: @item.SoLuong.ToString("N0")</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info-soft text-info border border-info px-3">
+                                            <i class="fas fa-map-marker-alt me-1"></i> @(string.IsNullOrEmpty(item.TenKhu) ? "N/A" : item.TenKhu)
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm me-2 bg-light text-secondary rounded-circle text-center" style="width: 30px; height: 30px; line-height: 30px;">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <span class="small">@item.HoTenNV</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end fw-bold text-dark">
+                                        @item.TongTien.ToString("N0") <small>đ</small>
+                                    </td>
+                                    <td class="text-center pe-4">
+                                        <button class="btn btn-sm btn-outline-primary rounded-circle" data-bs-toggle="tooltip" title="@item.GhiChu">
+                                            <i class="fas fa-info-circle"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center py-5">
+                                    <div class="py-4 text-muted">
+                                        <i class="fas fa-box-open fa-3x mb-3"></i>
+                                        <p>Không có dữ liệu lịch sử cho kho này!</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    .bg-success-soft { background-color: #e6fcf5; border: 1px solid #c3fae8; }
+    .bg-danger-soft { background-color: #fff5f5; border: 1px solid #ffe3e3; }
+    .bg-info-soft { background-color: #e7f5ff; border: 1px solid #d0ebff; }
+    
+    .badge-status {
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        display: inline-block;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    .table thead th {
+        font-weight: 700;
+        font-size: 0.8rem;
+        padding: 15px;
+        border: none;
+    }
+
+    .table tbody td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #eee;
+    }
+</style>

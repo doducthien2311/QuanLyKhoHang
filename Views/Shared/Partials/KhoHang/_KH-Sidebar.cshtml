@@ -1,22 +1,59 @@
-<div class="border-end pe-3 bg-white rounded-3 shadow-sm py-4 h-100">
-    <div class="d-flex align-items-center mb-4 pb-2 border-bottom px-3">
-        <img src="~/images/user_avatar.png" class="rounded-circle me-2 border border-2 border-success" style="width: 45px; height: 45px; object-fit: cover;">
+@{
+    // 1. Lấy tên từ Session và xử lý chữ cái đầu
+    var userName = Context.Session.GetString("UserName") ?? "User";
+    var firstChar = !string.IsNullOrEmpty(userName) ? userName.Substring(0, 1).ToUpper() : "U";
+
+    // 2. Logic xác định ca trực
+    var hour = DateTime.Now.Hour;
+    string caTruc = (hour >= 6 && hour < 18) ? "Sáng" : "Tối";
+    string iconCaTruc = (hour >= 6 && hour < 18) ? "bi-sun-fill" : "bi-moon-stars-fill";
+}
+
+<div class="border-end pe-3 rounded-4 shadow-sm py-4 h-100" style="background-color: #222e3c; color: #e9ecef; transition: all 0.3s;">
+    
+    <div class="d-flex align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-25 px-3">
+        <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm me-3" 
+             style="width: 50px; height: 50px; background: linear-gradient(135.2deg, #3b82f6 0%, #2563eb 100%); font-size: 1.3rem; font-weight: 700; color: white;">
+            @firstChar
+        </div>
         <div>
-            <small class="text-muted d-block" style="font-size: 0.7rem;">@DateTime.Now.ToString("dd/MM/yyyy")</small>
-            <span class="fw-bold text-dark" style="font-size: 0.9rem;">Thiện Đỗ Đức!</span>
+            <span class="fw-bold d-block" style="font-size: 1rem; color: #ffffff; letter-spacing: 0.5px;">@userName</span>
+            <small class="text-info opacity-75" style="font-size: 0.75rem;">
+                <i class="bi @iconCaTruc me-1"></i> Ca @caTruc | @DateTime.Now.ToString("dd/MM")
+            </small>
         </div>
     </div>
 
     <div class="px-3 mb-4">
-        <div class="input-group shadow-sm rounded-pill border overflow-hidden">
-            <span class="input-group-text bg-white border-0"><i class="fas fa-search text-muted"></i></span>
-            <input type="text" class="form-control border-0 px-1" placeholder="Tìm kiếm...">
+        <div class="input-group shadow-sm rounded-3 border-0 overflow-hidden" style="background-color: rgba(255, 255, 255, 0.05);">
+            <span class="input-group-text bg-transparent border-0"><i class="bi bi-search text-secondary" style="font-size: 0.8rem;"></i></span>
+            <input type="text" class="form-control bg-transparent border-0 px-1 text-white" placeholder="Tìm kho..." style="box-shadow: none; font-size: 0.85rem;">
         </div>
     </div>
 
     <div class="nav flex-column nav-pills px-2">
-        <button class="nav-link active text-start mb-2 rounded-pill shadow-sm" style="background-color: #2e7d32;" type="button">Tất cả kho</button>
-        <button class="nav-link text-start mb-2 rounded-pill text-dark bg-light border" type="button">Kho có hàng</button>
-        <button class="nav-link text-start mb-2 rounded-pill text-dark bg-light border" type="button">Kho trống</button>
+        <button class="nav-link active text-start mb-2 rounded-3 shadow-sm border-0 d-flex align-items-center" 
+                style="background: #f97316; color: white; padding: 10px 15px;" type="button">
+            <i class="bi bi-grid-1x2-fill me-3"></i> Tất cả kho
+        </button>
+        
+        <button class="nav-link text-start mb-2 rounded-3 bg-transparent border-0 d-flex align-items-center opacity-75 hover-effect" 
+                style="color: #adb5bd; padding: 10px 15px;" type="button">
+            <i class="bi bi-box-seam-fill me-3"></i> Kho có hàng
+        </button>
+        
+        <button class="nav-link text-start mb-2 rounded-3 bg-transparent border-0 d-flex align-items-center opacity-75 hover-effect" 
+                style="color: #adb5bd; padding: 10px 15px;" type="button">
+            <i class="bi bi-door-open-fill me-3"></i> Kho trống
+        </button>
     </div>
 </div>
+
+<style>
+    /* Hiệu ứng khi di chuột vào các nút menu */
+    .hover-effect:hover {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        color: #ffffff !important;
+        opacity: 1 !important;
+    }
+</style>

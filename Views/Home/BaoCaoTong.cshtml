@@ -1,0 +1,93 @@
+@using QuanLyKhoLogistics.Models.Entities
+@model IEnumerable<BaoCaoTongModel>
+
+@{
+    ViewData["Title"] = "Báo cáo tổng hợp nhập xuất";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid mt-4 animate__animated animate__fadeIn">
+    @* Thanh tiêu đề giống phong cách các trang khác của Thiện *@
+    <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded shadow-sm">
+        <div>
+            <h3 class="fw-bold text-dark mb-0 text-uppercase">
+                <i class="fas fa-clipboard-list me-2 text-success"></i>Báo cáo tổng hợp hệ thống
+            </h3>
+
+        </div>
+        <a href="@Url.Action("KhoHang", "Home")" class="btn btn-outline-secondary rounded-pill">
+            <i class="fas fa-undo me-1"></i> Quay lại sơ đồ
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr class="text-secondary text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">
+                            <th class="ps-4 py-3">Thời gian</th>
+                            <th class="py-3 text-center">Loại phiếu</th>
+                            <th class="py-3">Số hóa đơn</th>
+                            <th class="py-3">Kho thực hiện</th> @* Cột quan trọng nhất Thiện yêu cầu *@
+                            <th class="py-3">Người thực hiện</th>
+                            <th class="py-3 text-end pe-4">Giá trị</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="align-middle">
+                                <td class="ps-4">
+                                    <div class="fw-bold">@item.ThoiGian.ToString("dd/MM/yyyy")</div>
+                                    <small class="text-muted">@item.ThoiGian.ToString("HH:mm")</small>
+                                </td>
+                                <td class="text-center">
+                                    @if (item.LoaiPhieu == "Nhập kho")
+                                    {
+                                        <span class="badge rounded-pill" style="background-color: #e6f4ea; color: #1e7e34; padding: 6px 12px;">
+                                            <i class="fas fa-arrow-down me-1"></i> Nhập kho
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge rounded-pill" style="background-color: #fce8e6; color: #d93025; padding: 6px 12px;">
+                                            <i class="fas fa-arrow-up me-1"></i> Xuất kho
+                                        </span>
+                                    }
+                                </td>
+                                <td><code class="fw-bold text-primary">@item.SoHoaDon</code></td>
+                                <td>
+                                    @* Hiển thị tên kho thực tế từ SQL *@
+                                    <span class="badge bg-secondary-subtle text-dark border px-2">
+                                        <i class="fas fa-warehouse me-1 text-muted"></i> @item.TenKho
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-xs me-2 bg-light rounded-circle text-center" style="width: 25px; height: 25px;">
+                                            <i class="fas fa-user text-secondary" style="font-size: 0.7rem;"></i>
+                                        </div>
+                                        <span>@item.NguoiThucHien</span>
+                                    </div>
+                                </td>
+                                <td class="text-end pe-4 fw-bold text-dark">
+                                    @item.GiaTri.ToString("N0") <small>đ</small>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Hiệu ứng hover cho dòng trong bảng */
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+        transition: all 0.2s ease; 
+    }
+    .badge { font-weight: 500; }
+</style>

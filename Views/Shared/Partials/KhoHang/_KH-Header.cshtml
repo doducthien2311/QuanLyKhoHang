@@ -1,5 +1,5 @@
 @* File: ~/Views/Shared/Partials/KhoHang/_KH-Header.cshtml *@
-
+ @using Microsoft.AspNetCore.Http
 <div class="d-flex justify-content-between align-items-end mb-4 animate__animated animate__fadeIn">
     <div>
         <h3 class="fw-bold text-dark mb-1 text-uppercase" style="letter-spacing: 0.5px;">
@@ -27,11 +27,14 @@
     
     <div class="d-none d-lg-block">
         @if (ViewBag.TenKho == null) 
-        {
-            @* Giao diện trang danh sách kho *@
-            <button class="btn btn-outline-success btn-sm rounded-pill px-3 me-2 hover-shadow">
-                <i class="fas fa-file-export me-1"></i>Xuất báo cáo tổng
-            </button>
+        {   
+           
+            @if (Context.Session.GetString("UserRole") == "Admin") 
+            {
+                <a href="@Url.Action("BaoCaoTong", "Home")" class="btn btn-outline-success btn-sm rounded-pill px-3 me-2 hover-shadow transition-all">
+                    <i class="fas fa-file-export me-1"></i>Xuất báo cáo tổng
+                </a>
+            }
             <button class="btn btn-success btn-sm rounded-pill px-3 shadow-sm" style="background-color: #2e7d32;">
                 <i class="fas fa-plus me-1"></i>Thêm kho mới
             </button>
@@ -39,8 +42,8 @@
         else 
         {
             @* Giao diện khi vào chi tiết 1 kho - Đã gắn link Lịch Sử *@
-            <a href="@Url.Action("LichSuKiemKe", "Home")" class="btn btn-warning btn-sm rounded-pill px-3 me-2 text-dark fw-bold shadow-sm transition-all">
-                <i class="fas fa-history me-1"></i>Lịch sử kiểm kê
+            <a href="@Url.Action("LichSuKiemKe", "Home")" class="btn btn-warning rounded-pill shadow-sm">
+                 <i class="fas fa-history me-1"></i> Lịch sử kiểm kê
             </a>
             
             <a href="@Url.Action("KhoHang", "Home")" class="btn btn-outline-secondary btn-sm rounded-pill px-3">

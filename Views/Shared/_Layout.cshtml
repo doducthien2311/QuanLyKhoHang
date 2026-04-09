@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
@@ -71,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-<body class="bg-light">a
+<body class="bg-light">
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-3">
             <div class="container">
@@ -85,17 +87,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto text-uppercase">
-                        <li class="nav-item"><a class="nav-link" href="/Home/Index">TRANG CHỦ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Home/GioiThieu">GIỚI THIỆU</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Home/KhoHang">KHO HÀNG</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Home/BangTin">BẢNG TIN</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Home/LienHe">LIÊN HỆ</a></li>
-                    </ul>
+    <li class="nav-item"><a class="nav-link" href="/Home/Index">TRANG CHỦ</a></li>
+    <li class="nav-item"><a class="nav-link" href="/Home/GioiThieu">GIỚI THIỆU</a></li>
+    <li class="nav-item"><a class="nav-link" href="/Home/KhoHang">KHO HÀNG</a></li>
+    <li class="nav-item"><a class="nav-link" href="/Home/LienHe">LIÊN HỆ</a></li>
+
+    @* Lấy quyền từ Session *@
+    @{
+        var userRole = Context.Session.GetString("UserRole");
+    }
+
+    @if (userRole == "Admin")
+    {
+        <li class="nav-item">
+            <a class="nav-link text-danger fw-bold" href="/Admin/QuanLyNhanVien">
+                <i class="fas fa-user-shield me-1"></i> QUẢN LÝ
+            </a>
+        </li>
+    }
+</ul>
 
                     <div class="d-flex align-items-center">
                         @if (Context.Session.GetString("UserName") != null)
                         {
-                            <span class="me-3 small text-muted">Chào, <b>@Context.Session.GetString("UserName")</b></span>
+                            <span class="me-3 small text-muted"> <b>@Context.Session.GetString("UserName")</b></span>
                             <a href="/Account/Logout" class="btn btn-sm btn-outline-danger">Thoát</a>
                         }
                     </div>
@@ -134,8 +149,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             </div>
         }
-    </main>
-</div>
+    
+
         </main>
     </div>
 
